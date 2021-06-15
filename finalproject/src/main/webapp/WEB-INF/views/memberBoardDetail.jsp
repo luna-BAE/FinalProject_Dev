@@ -120,6 +120,7 @@ function commentList(){
 	                a += '<div class="commentContent'+comment[no].commentNum+'"> <p>    '+comment[no].commentContent +'</p>';
 	                a += '<input id = "boardNum" hidden = "hidden" value = "'+comment[no].writerNum+'"/>';
 	            	a += '</div></div>';
+	            	$(".commentList").html(a);
             	} else {
             		a += '<div class="commentArea" style="border-bottom:1px solid lightgray; margin-bottom: 15px;">';
 	                a += '<div class="commentInfo'+comment[no].commentNum+'" style="font-size:14px;">';
@@ -127,12 +128,13 @@ function commentList(){
 	                a += '<div class="commentContent'+comment[no].commentNum+'"> <p>    '+comment[no].commentContent +'</p>';
 	                a += '<input id = "boardNum" hidden = "hidden" value = "'+comment[no].writerNum+'"/>';
 	            	a += '</div></div>';
+	            	$(".commentList").html(a);
             	}
 
 
             }
         	
-            $(".commentList").html(a);
+            
         }
     });
 }
