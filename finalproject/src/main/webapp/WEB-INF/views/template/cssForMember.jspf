@@ -736,6 +736,14 @@
 	#backbtn{ /*뒤로 가기 버튼*/
   		background-color : rgb(204,204,204);
   	}
+  	
+  	.commentModifyBtn{
+  		color : block;
+  	}
+  	
+  	.commentModifyBtn:hover{
+  		color : red;
+  	}
 	
 
 /*게시판*/

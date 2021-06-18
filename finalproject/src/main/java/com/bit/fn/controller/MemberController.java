@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -380,64 +381,65 @@ public class MemberController {
 		return result;
 	}
 	
-//	
-//	
-//	// 멤버 파트 게시판 댓글 수정
-//	@RequestMapping(value = "/board/updateComment")
-//	public String updateComment(Model model, Principal  principal, @RequestParam int commentNum, @RequestParam String content) {
-//		
-//		//아이디
-//		String id = principal.getName();
-//		
-//		//권한 여부
-//		int admin=principal.toString().indexOf("ROLE_ADMIN");
-//		int master=principal.toString().indexOf("ROLE_MASTER");
-//		int member=principal.toString().indexOf("ROLE_MEMBER");
-//		
-//		//여기서 중점! 권한 여부에 따라 불러오는 테이블 값을 다르게 줄 수 있다!
-//		if( member != -1 ) {
-//			model.addAttribute("member",memberinfoService.selectOne(id));
-//		} else {
-//			return "redirect:/intro";
-//		}
-//		
-//		CommentVo comment = new CommentVo();
-//		comment.setCommentNum(commentNum);
-//		comment.setCommentContent(content);
-//		int update = commentService.updateComment(comment);
-//		
-//		return "";
-//		
-//	}
-//	
-//	
-//	
-//	// 멤버 파트 게시판 댓글 삭제
-//	@RequestMapping(value = "/board/deleteComment/{commentNum}")
-//	public String deleteComment(Model model, Principal  principal, @RequestParam int commentNum) {
-//		
-//		//아이디
-//		String id = principal.getName();
-//		
-//		//권한 여부
-//		int admin=principal.toString().indexOf("ROLE_ADMIN");
-//		int master=principal.toString().indexOf("ROLE_MASTER");
-//		int member=principal.toString().indexOf("ROLE_MEMBER");
-//		
-//		//여기서 중점! 권한 여부에 따라 불러오는 테이블 값을 다르게 줄 수 있다!
-//		if( member != -1 ) {
-//			model.addAttribute("member",memberinfoService.selectOne(id));
-//		} else {
-//			return "redirect:/intro";
-//		}
-//		
-//		int delete = commentService.deleteComment(commentNum);
-//		
-//		return "";
-//	}
-//
-//
-//	
+	
+	
+	// 멤버 파트 게시판 댓글 수정
+	@RequestMapping(value = "/board/updateComment")
+	public String updateComment(Model model, Principal  principal, @RequestParam int commentNum, @RequestParam String content) {
+		
+		//아이디
+		String id = principal.getName();
+		
+		//권한 여부
+		int admin=principal.toString().indexOf("ROLE_ADMIN");
+		int master=principal.toString().indexOf("ROLE_MASTER");
+		int member=principal.toString().indexOf("ROLE_MEMBER");
+		
+		//여기서 중점! 권한 여부에 따라 불러오는 테이블 값을 다르게 줄 수 있다!
+		if( member != -1 ) {
+			model.addAttribute("member",memberinfoService.selectOne(id));
+		} else {
+			return "redirect:/intro";
+		}
+		
+		CommentVo comment = new CommentVo();
+		comment.setCommentNum(commentNum);
+		comment.setCommentContent(content);
+		int update = commentService.updateComment(comment);
+		
+		return "";
+		
+	}
+	
+	
+	
+	// 멤버 파트 게시판 댓글 삭제
+	@RequestMapping(value = "/board/deleteComment/{commentNum}")
+	@ResponseBody
+	public Map<String, Object> deleteComment(Model model, Principal  principal, @PathVariable int commentNum) {
+		
+		//아이디
+		String id = principal.getName();
+		
+		//권한 여부
+		int admin=principal.toString().indexOf("ROLE_ADMIN");
+		int master=principal.toString().indexOf("ROLE_MASTER");
+		int member=principal.toString().indexOf("ROLE_MEMBER");
+		
+		if( member != -1 ) {
+			model.addAttribute("member",memberinfoService.selectOne(id));
+		}
+		
+		int delete = commentService.deleteComment(commentNum);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("insertResult", delete);
+		
+		return result;
+	}
+
+
+	
 
 
 

@@ -105,30 +105,30 @@ function commentList(){
         data : "num="+$("#boardNum").val(),
         dataType : "json",
         success : function(data){
-            var a ='';
+            var commentContent ='';
             var dataLength = data.commetData.length;
             var comment = data.commetData;
             
             for (var no = 0; no < dataLength; no++ ) {
             	
             	if ( $("#memNum").val() == comment[no].writerNum ) {
-            		a += '<div class="commentArea" style="border-bottom:1px solid lightgray; margin-bottom: 15px;">';
-	                a += '<div class="commentInfo'+comment[no].commentNum+'" style="font-size:14px;">';
-	                a += comment[no].commentNum+'   |   '+comment[no].commentWriter+'   |   '+comment[no].commentDate;
-	                a += '<a onclick="commentUpdate('+comment[no].commentNum+',\''+comment[no].commentContent+'\');"> | 수정 | </a>';
-	                a += '<a onclick="commentDelete('+comment[no].commentNum+');"> 삭제</a> </div>';
-	                a += '<div class="commentContent'+comment[no].commentNum+'"> <p>    '+comment[no].commentContent +'</p>';
-	                a += '<input id = "boardNum" hidden = "hidden" value = "'+comment[no].writerNum+'"/>';
-	            	a += '</div></div>';
-	            	$(".commentList").html(a);
+            		commentContent += '<div class="commentArea" style="border-bottom:1px solid lightgray; margin-bottom: 15px;">';
+            		commentContent += '	<div class="commentInfo'+comment[no].commentNum+'" style="font-size:14px;">';
+	                commentContent += comment[no].commentNum+'   |   '+comment[no].commentWriter+'   |   '+comment[no].commentDate+'	|	';
+	                commentContent += '<a class = "commentModifyBtn" onclick="commentUpdate('+comment[no].commentNum+',\''+comment[no].commentContent+'\');">수정</a>'+'	|	';
+	                commentContent += '<a class = "commentModifyBtn" onclick="commentDelete('+comment[no].commentNum+');"> 삭제</a> </div>';
+	                commentContent += '<div class="commentContent'+comment[no].commentNum+'"> <p>    '+comment[no].commentContent +'</p>';
+	                commentContent += '<input id = "writerNum" hidden = "hidden" value = "'+comment[no].writerNum+'"/>';
+	            	commentContent += '</div></div>';
+	            	$(".commentList").html(commentContent);
             	} else {
-            		a += '<div class="commentArea" style="border-bottom:1px solid lightgray; margin-bottom: 15px;">';
-	                a += '<div class="commentInfo'+comment[no].commentNum+'" style="font-size:14px;">';
-	                a += comment[no].commentNum+'   |   '+comment[no].commentWriter+'   |   '+comment[no].commentDate;
-	                a += '<div class="commentContent'+comment[no].commentNum+'"> <p>    '+comment[no].commentContent +'</p>';
-	                a += '<input id = "boardNum" hidden = "hidden" value = "'+comment[no].writerNum+'"/>';
-	            	a += '</div></div>';
-	            	$(".commentList").html(a);
+            		commentContent += '<div class="commentArea" style="border-bottom:1px solid lightgray; margin-bottom: 15px;">';
+	                commentContent += '	<div class="commentInfo'+comment[no].commentNum+'" style="font-size:14px;">';
+	                commentContent += comment[no].commentNum+'   |   '+comment[no].commentWriter+'   |   '+comment[no].commentDate;
+	                commentContent += '<div class="commentContent'+comment[no].commentNum+'"> <p>    '+comment[no].commentContent +'</p>';
+	                commentContent += '<input id = "writerNum" hidden = "hidden" value = "'+comment[no].writerNum+'"/>';
+	            	commentContent += '</div></div>';
+	            	$(".commentList").html(commentContent);
             	}
 
 
@@ -155,6 +155,46 @@ function commentInsert(content){
     });
 }
 
+//댓글 수정 버튼 클릭
+function commentUpdate(commentNum, content){
+    var updateContent ='';
+    
+    updateContent += '<div class="input-group">';
+    updateContent += '<input type="text" class="form-control" name="content_'+commentNum+'" value="'+content+'"/>';
+    updateContent += '<span class="input-group-btn"><button class="btn btn-default" type="button" onclick="commentUpdateProc('+commentNum+');">수정</button> </span>';
+    updateContent += '</div>';
+    
+    $('.commentContent'+commentNum).html(updateContent);
+    
+}
+
+//댓글 수정
+function commentUpdateProc(commentNum){
+    var updateContent = $('[name=content_'+commentNum+']').val();
+    
+    $.ajax({
+        url : '/board/updateComment',
+        type : 'post',
+        data : {'content' : updateContent, 'commentNum' : commentNum},
+        success : function(data){
+            if(data == 1) commentList(); //댓글 수정후 목록 출력 
+        }
+    });
+}
+
+//댓글 삭제 
+function commentDelete(commentNum){
+    $.ajax({
+        url : '/board/deleteComment/'+commentNum,
+        type : 'post',
+        success : function(data){
+        	if(data.insertResult == 1) {
+                commentList(); //댓글 작성 후 댓글 목록 reload
+            } 
+        }
+    });
+}
+
 </script>
 
 <body>
@@ -172,7 +212,7 @@ function commentInsert(content){
 						<table id = "bbsTable" class="table table-bordered table-hover">
 							<thead id = "boardDetailContent">
 								<tr>
-									<th class = "detailHeader">글번호</th>
+									<th class = "detailHeader">번호</th>
 									<td class = "headerContent"><input id = "boardNum" hidden = "hidden" value = "${detail.num }"/>${detail.num }</td>
 								</tr>
 								<tr>
@@ -180,7 +220,7 @@ function commentInsert(content){
 									<td class = "headerContent"><input id = "writer" hidden = "hidden" value = "${detail.memNum }"/>${detail.writer }</td>
 								</tr>
 								<tr>
-									<th class = "detailHeader">회사명</th>
+									<th class = "detailHeader">소속</th>
 									<td class = "headerContent"><input id = "company" hidden = "hidden" value = "${detail.company }"/>${detail.company }</td>
 								</tr>
 								<tr>
@@ -211,7 +251,6 @@ function commentInsert(content){
 			        <label for="content" id = "commentLable">댓글</label>
 			        <form name="commentInsertForm" id = "commentBox">
 			            <div class="input-group">
-			               <input type="hidden" name="num" id = "boardNum" value="${detail.num}"/>
 			               <input type="text" class="form-control" id="content" name="content" placeholder="내용을 입력하세요.">
 			               <span class="input-group-btn">
 			                    <button class="btn btn-default" type="button" id = "commentInsertBtn" name="commentInsertBtn">등록</button>
