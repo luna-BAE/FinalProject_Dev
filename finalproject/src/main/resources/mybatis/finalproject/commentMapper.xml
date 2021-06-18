@@ -28,7 +28,7 @@
    	</update>
    	
    	<update id="deleteComment" parameterType="com.bit.fn.model.vo.CommentVo">
-   		update comment set checkDelete = #{checkDelete} where commentNum = #{commentNum}
+   		update comment set checkDelete = 1 where commentNum = #{commentNum}
    	</update>
    	
 </mapper>

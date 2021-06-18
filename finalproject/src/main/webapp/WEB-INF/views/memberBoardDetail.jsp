@@ -118,7 +118,6 @@ function commentList(){
 	                commentContent += '<a class = "commentModifyBtn" onclick="commentUpdate('+comment[no].commentNum+',\''+comment[no].commentContent+'\');">수정</a>'+'	|	';
 	                commentContent += '<a class = "commentModifyBtn" onclick="commentDelete('+comment[no].commentNum+');"> 삭제</a> </div>';
 	                commentContent += '<div class="commentContent'+comment[no].commentNum+'"> <p>    '+comment[no].commentContent +'</p>';
-	                commentContent += '<input id = "writerNum" hidden = "hidden" value = "'+comment[no].writerNum+'"/>';
 	            	commentContent += '</div></div>';
 	            	$(".commentList").html(commentContent);
             	} else {
@@ -126,7 +125,6 @@ function commentList(){
 	                commentContent += '	<div class="commentInfo'+comment[no].commentNum+'" style="font-size:14px;">';
 	                commentContent += comment[no].commentNum+'   |   '+comment[no].commentWriter+'   |   '+comment[no].commentDate;
 	                commentContent += '<div class="commentContent'+comment[no].commentNum+'"> <p>    '+comment[no].commentContent +'</p>';
-	                commentContent += '<input id = "writerNum" hidden = "hidden" value = "'+comment[no].writerNum+'"/>';
 	            	commentContent += '</div></div>';
 	            	$(".commentList").html(commentContent);
             	}
@@ -189,6 +187,7 @@ function commentDelete(commentNum){
         type : 'post',
         success : function(data){
         	if(data.insertResult == 1) {
+        		alert("댓글이 삭제되었습니다.");
                 commentList(); //댓글 작성 후 댓글 목록 reload
             } 
         }
