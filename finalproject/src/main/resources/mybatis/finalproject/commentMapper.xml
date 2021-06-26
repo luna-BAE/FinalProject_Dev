@@ -8,7 +8,8 @@
    	</select>
 
 	<select id="allComment" resultType="com.bit.fn.model.vo.CommentVo" parameterType = "int">
-   		select commentNum, num, commentWriter, writerNum, commentContent, commentDate from comment where num = #{num} and checkDelete != 1 order by commentNum desc
+   		select commentNum, num, commentWriter, writerNum, commentContent, commentDate 
+   		from comment where num = #{num} and checkDelete != 1 order by commentNum desc
    	</select>
    	
    	<select id="searchMaxCommentNumber" resultType="Integer">

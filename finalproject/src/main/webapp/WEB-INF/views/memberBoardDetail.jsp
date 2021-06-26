@@ -115,7 +115,8 @@ function commentList(){
             		commentContent += '<div class="commentArea" style="border-bottom:1px solid lightgray; margin-bottom: 15px;">';
             		commentContent += '	<div class="commentInfo'+comment[no].commentNum+'" style="font-size:14px;">';
 	                commentContent += comment[no].commentNum+'   |   '+comment[no].commentWriter+'   |   '+comment[no].commentDate+'	|	';
-	                commentContent += '<a class = "commentModifyBtn" onclick="commentUpdate('+comment[no].commentNum+',\''+comment[no].commentContent+'\');">수정</a>'+'	|	';
+	                commentContent += '<a class = "commentModifyBtn" onclick="commentUpdate(';
+	                commentContent += comment[no].commentNum+',\''+comment[no].commentContent+'\');">수정</a>'+'	|	';
 	                commentContent += '<a class = "commentModifyBtn" onclick="commentDelete('+comment[no].commentNum+');"> 삭제</a> </div>';
 	                commentContent += '<div class="commentContent'+comment[no].commentNum+'"> <p>    '+comment[no].commentContent +'</p>';
 	            	commentContent += '</div></div>';
