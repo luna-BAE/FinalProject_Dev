@@ -174,9 +174,10 @@ function commentUpdateProc(commentNum){
     $.ajax({
         url : '/board/updateComment',
         type : 'post',
-        data : {'content' : updateContent, 'commentNum' : commentNum},
+        data : {'commentContent' : updateContent, 'commentNum' : commentNum},
         success : function(data){
-            if(data == 1) commentList(); //댓글 수정후 목록 출력 
+        	alert("댓글이 수정되었습니다.");
+            commentList(); //댓글 작성 후 댓글 목록 reload
         }
     });
 }

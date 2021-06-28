@@ -26,6 +26,10 @@ public class CommentService {
 		return commentMapper.searchMaxCommentNumber(num);
 	}
 	
+	public int checkExistence(int commentNum) {
+		return commentMapper.checkExistence(commentNum);
+	}
+	
 	public Integer insertComment(CommentVo comment) {
 		return commentMapper.insertComment(comment);
 	}

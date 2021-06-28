@@ -247,7 +247,6 @@ function paymentApplyFunction2(data) {
 		processData : false,
 		data : JSON.stringify(formdata),
 		success : function(data) {
-			alert("펑션으로 호출 성공");
 		}
 	});
 }

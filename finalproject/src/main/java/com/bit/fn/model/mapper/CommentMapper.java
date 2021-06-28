@@ -17,6 +17,8 @@ public interface CommentMapper {
 	
 	public Integer searchMaxCommentNumber(int num);
 	
+	public int checkExistence(int commentNum);
+	
 	public Integer insertComment(CommentVo comment);
 	
 	public int updateComment(CommentVo comment);

@@ -16,6 +16,10 @@
    		select ifnull(max(commentNum),0) from comment where num = #{num}
    	</select>
    	
+   	<select id="checkExistence" resultType="int">
+   		select count(*) from comment where commentNum = #{commentNum}
+   	</select>
+   	
    	<insert id="insertComment" parameterType="com.bit.fn.model.vo.CommentVo">
    		insert into comment(
    			commentNum, num, commentWriter, writerNum, commentContent, commentDate, checkDelete
@@ -25,7 +29,7 @@
    	</insert>
    	
    	<update id="updateComment" parameterType="com.bit.fn.model.vo.CommentVo">
-   		update comment set content = #{content} where commentNum = #{commentNum}
+   		update comment set commentContent = #{commentContent} where commentNum = #{commentNum}
    	</update>
    	
    	<update id="deleteComment" parameterType="com.bit.fn.model.vo.CommentVo">
